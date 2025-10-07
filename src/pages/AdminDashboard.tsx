@@ -3,8 +3,14 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Users, FolderKanban, Mail, Settings, LogOut } from "lucide-react";
+import { Users, FolderKanban, Mail, Settings, LogOut, Contact, Briefcase, GraduationCap, UserPlus } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { ContactInfoManager } from "@/components/admin/ContactInfoManager";
+import { ServicesManager } from "@/components/admin/ServicesManager";
+import { WorkersManager } from "@/components/admin/WorkersManager";
+import { ChatFellowManager } from "@/components/admin/ChatFellowManager";
+import { StudentAssignmentsManager } from "@/components/admin/StudentAssignmentsManager";
+import { WorkApplicationsManager } from "@/components/admin/WorkApplicationsManager";
 
 export default function AdminDashboard() {
   const { user, isAdmin, loading, signOut } = useAuth();
@@ -84,40 +90,39 @@ export default function AdminDashboard() {
           </Card>
         </div>
 
-        <Tabs defaultValue="projects" className="space-y-4">
-          <TabsList>
-            <TabsTrigger value="projects">Projects</TabsTrigger>
-            <TabsTrigger value="users">Users</TabsTrigger>
+        <Tabs defaultValue="contact" className="space-y-4">
+          <TabsList className="grid w-full grid-cols-7">
+            <TabsTrigger value="contact">Contact Info</TabsTrigger>
+            <TabsTrigger value="services">Services</TabsTrigger>
+            <TabsTrigger value="workers">Workers</TabsTrigger>
+            <TabsTrigger value="chat">Chat Fellow</TabsTrigger>
+            <TabsTrigger value="students">Students</TabsTrigger>
+            <TabsTrigger value="applications">Applications</TabsTrigger>
             <TabsTrigger value="messages">Messages</TabsTrigger>
-            <TabsTrigger value="settings">Settings</TabsTrigger>
           </TabsList>
 
-          <TabsContent value="projects" className="space-y-4">
-            <Card>
-              <CardHeader>
-                <CardTitle>Manage Projects</CardTitle>
-                <CardDescription>Add, edit, or remove projects from your portfolio</CardDescription>
-              </CardHeader>
-              <CardContent>
-                <p className="text-muted-foreground text-center py-8">
-                  Project management interface coming soon
-                </p>
-              </CardContent>
-            </Card>
+          <TabsContent value="contact" className="space-y-4">
+            <ContactInfoManager />
           </TabsContent>
 
-          <TabsContent value="users" className="space-y-4">
-            <Card>
-              <CardHeader>
-                <CardTitle>User Management</CardTitle>
-                <CardDescription>Manage registered users and their roles</CardDescription>
-              </CardHeader>
-              <CardContent>
-                <p className="text-muted-foreground text-center py-8">
-                  User management interface coming soon
-                </p>
-              </CardContent>
-            </Card>
+          <TabsContent value="services" className="space-y-4">
+            <ServicesManager />
+          </TabsContent>
+
+          <TabsContent value="workers" className="space-y-4">
+            <WorkersManager />
+          </TabsContent>
+
+          <TabsContent value="chat" className="space-y-4">
+            <ChatFellowManager />
+          </TabsContent>
+
+          <TabsContent value="students" className="space-y-4">
+            <StudentAssignmentsManager />
+          </TabsContent>
+
+          <TabsContent value="applications" className="space-y-4">
+            <WorkApplicationsManager />
           </TabsContent>
 
           <TabsContent value="messages" className="space-y-4">
@@ -129,20 +134,6 @@ export default function AdminDashboard() {
               <CardContent>
                 <p className="text-muted-foreground text-center py-8">
                   Message management interface coming soon
-                </p>
-              </CardContent>
-            </Card>
-          </TabsContent>
-
-          <TabsContent value="settings" className="space-y-4">
-            <Card>
-              <CardHeader>
-                <CardTitle>Settings</CardTitle>
-                <CardDescription>Configure site settings and contact information</CardDescription>
-              </CardHeader>
-              <CardContent>
-                <p className="text-muted-foreground text-center py-8">
-                  Settings interface coming soon
                 </p>
               </CardContent>
             </Card>
