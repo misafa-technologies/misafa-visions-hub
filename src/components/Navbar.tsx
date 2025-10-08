@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Menu, X, User, Briefcase } from "lucide-react";
 import { useState } from "react";
 import { useAuth } from "@/contexts/AuthContext";
+import logo from "@/assets/logo.ico";
 
 export const Navbar = () => {
   const location = useLocation();
@@ -23,9 +24,7 @@ export const Navbar = () => {
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
           <Link to="/" className="flex items-center space-x-2">
-            <div className="w-10 h-10 bg-gradient-to-br from-primary to-accent rounded-lg flex items-center justify-center">
-              <span className="text-xl font-bold text-background">M</span>
-            </div>
+            <img src={logo} alt="Misafa Technologies" className="w-10 h-10" />
             <span className="text-xl font-bold">Misafa Technologies</span>
           </Link>
 
