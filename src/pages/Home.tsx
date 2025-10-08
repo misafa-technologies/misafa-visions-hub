@@ -2,41 +2,20 @@ import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { ArrowRight, Globe, Palette, Bot, Share2, FileText, Video } from "lucide-react";
+import { useServices } from "@/hooks/useServices";
+import * as LucideIcons from "lucide-react";
 
-const services = [
-  {
-    icon: Globe,
-    title: "Web Development",
-    description: "Custom websites and web applications built with cutting-edge technology."
-  },
-  {
-    icon: Palette,
-    title: "Branding",
-    description: "Complete brand identity design that makes your business stand out."
-  },
-  {
-    icon: Bot,
-    title: "AI Automation",
-    description: "Streamline your workflows with intelligent automation solutions."
-  },
-  {
-    icon: Share2,
-    title: "Social Media",
-    description: "Strategic social media management to grow your online presence."
-  },
-  {
-    icon: FileText,
-    title: "Content Writing",
-    description: "Compelling content and product descriptions that convert."
-  },
-  {
-    icon: Video,
-    title: "Video Editing",
-    description: "Professional video production and editing services."
-  }
-];
+const iconMap: Record<string, any> = {
+  Globe,
+  Palette,
+  Bot,
+  Share2,
+  FileText,
+  Video,
+};
 
 export default function Home() {
+  const { services: dbServices, loading } = useServices();
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
@@ -77,21 +56,30 @@ export default function Home() {
             </p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {services.map((service, index) => (
-              <Card 
-                key={index} 
-                className="group hover:shadow-lg hover:shadow-primary/20 transition-all duration-300 hover:-translate-y-2 bg-card"
-                style={{ animationDelay: `${index * 100}ms` }}
-              >
-                <CardContent className="p-6">
-                  <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center mb-4 group-hover:bg-primary/20 transition-colors">
-                    <service.icon className="w-6 h-6 text-primary" />
-                  </div>
-                  <h3 className="text-xl font-semibold mb-2">{service.title}</h3>
-                  <p className="text-muted-foreground">{service.description}</p>
-                </CardContent>
-              </Card>
-            ))}
+            {loading ? (
+              <p className="col-span-3 text-center text-muted-foreground">Loading services...</p>
+            ) : dbServices.length > 0 ? (
+              dbServices.map((service, index) => {
+                const IconComponent = service.icon ? iconMap[service.icon] || Globe : Globe;
+                return (
+                  <Card 
+                    key={service.id} 
+                    className="group hover:shadow-lg hover:shadow-primary/20 transition-all duration-300 hover:-translate-y-2 bg-card"
+                    style={{ animationDelay: `${index * 100}ms` }}
+                  >
+                    <CardContent className="p-6">
+                      <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center mb-4 group-hover:bg-primary/20 transition-colors">
+                        <IconComponent className="w-6 h-6 text-primary" />
+                      </div>
+                      <h3 className="text-xl font-semibold mb-2">{service.title}</h3>
+                      <p className="text-muted-foreground">{service.description}</p>
+                    </CardContent>
+                  </Card>
+                );
+              })
+            ) : (
+              <p className="col-span-3 text-center text-muted-foreground">No services available yet.</p>
+            )}
           </div>
           <div className="text-center mt-12">
             <Link to="/services">

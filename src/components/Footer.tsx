@@ -1,7 +1,10 @@
 import { Link } from "react-router-dom";
 import { Facebook, Twitter, Instagram, Linkedin, Mail, Phone } from "lucide-react";
+import { useContactInfo } from "@/hooks/useContactInfo";
 
 export const Footer = () => {
+  const { getByKey } = useContactInfo();
+
   return (
     <footer className="bg-card border-t border-border">
       <div className="container mx-auto px-4 py-12">
@@ -63,24 +66,24 @@ export const Footer = () => {
             <ul className="space-y-3">
               <li className="flex items-center space-x-2 text-sm text-muted-foreground">
                 <Mail className="w-4 h-4" />
-                <span>info@misafa.tech</span>
+                <span>{getByKey("email") || "info@misafa.tech"}</span>
               </li>
               <li className="flex items-center space-x-2 text-sm text-muted-foreground">
                 <Phone className="w-4 h-4" />
-                <span>+1 (555) 123-4567</span>
+                <span>{getByKey("phone") || "+1 (555) 123-4567"}</span>
               </li>
             </ul>
             <div className="flex space-x-4 mt-4">
-              <a href="#" className="text-muted-foreground hover:text-primary transition-colors">
+              <a href={getByKey("facebook") || "#"} className="text-muted-foreground hover:text-primary transition-colors">
                 <Facebook className="w-5 h-5" />
               </a>
-              <a href="#" className="text-muted-foreground hover:text-primary transition-colors">
+              <a href={getByKey("twitter") || "#"} className="text-muted-foreground hover:text-primary transition-colors">
                 <Twitter className="w-5 h-5" />
               </a>
-              <a href="#" className="text-muted-foreground hover:text-primary transition-colors">
+              <a href={getByKey("instagram") || "#"} className="text-muted-foreground hover:text-primary transition-colors">
                 <Instagram className="w-5 h-5" />
               </a>
-              <a href="#" className="text-muted-foreground hover:text-primary transition-colors">
+              <a href={getByKey("linkedin") || "#"} className="text-muted-foreground hover:text-primary transition-colors">
                 <Linkedin className="w-5 h-5" />
               </a>
             </div>

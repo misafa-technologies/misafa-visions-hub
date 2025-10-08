@@ -6,9 +6,11 @@ import { Label } from "@/components/ui/label";
 import { Mail, Phone, MessageCircle, Send } from "lucide-react";
 import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
+import { useContactInfo } from "@/hooks/useContactInfo";
 
 export default function Contact() {
   const { toast } = useToast();
+  const { getByKey } = useContactInfo();
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -47,8 +49,7 @@ export default function Contact() {
                   </div>
                   <div>
                     <h3 className="font-semibold mb-1">Email</h3>
-                    <p className="text-sm text-muted-foreground">info@misafa.tech</p>
-                    <p className="text-sm text-muted-foreground">support@misafa.tech</p>
+                    <p className="text-sm text-muted-foreground">{getByKey("email") || "info@misafa.tech"}</p>
                   </div>
                 </div>
               </CardContent>
@@ -62,8 +63,7 @@ export default function Contact() {
                   </div>
                   <div>
                     <h3 className="font-semibold mb-1">Phone</h3>
-                    <p className="text-sm text-muted-foreground">+1 (555) 123-4567</p>
-                    <p className="text-sm text-muted-foreground">Mon-Fri 9am-6pm EST</p>
+                    <p className="text-sm text-muted-foreground">{getByKey("phone") || "+1 (555) 123-4567"}</p>
                   </div>
                 </div>
               </CardContent>
@@ -77,8 +77,7 @@ export default function Contact() {
                   </div>
                   <div>
                     <h3 className="font-semibold mb-1">Live Chat</h3>
-                    <p className="text-sm text-muted-foreground">Telegram: @misafa</p>
-                    <p className="text-sm text-muted-foreground">WhatsApp: +1 555 123 4567</p>
+                    <p className="text-sm text-muted-foreground">WhatsApp: {getByKey("whatsapp") || "+1 555 123 4567"}</p>
                   </div>
                 </div>
               </CardContent>
