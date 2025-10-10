@@ -12,6 +12,7 @@ import { ChatFellowManager } from "@/components/admin/ChatFellowManager";
 import { StudentAssignmentsManager } from "@/components/admin/StudentAssignmentsManager";
 import { WorkApplicationsManager } from "@/components/admin/WorkApplicationsManager";
 import { ProjectsManager } from "@/components/admin/ProjectsManager";
+import { ContactSubmissionsManager } from "@/components/admin/ContactSubmissionsManager";
 
 export default function AdminDashboard() {
   const { user, isAdmin, loading, signOut } = useAuth();
@@ -132,17 +133,7 @@ export default function AdminDashboard() {
           </TabsContent>
 
           <TabsContent value="messages" className="space-y-4">
-            <Card>
-              <CardHeader>
-                <CardTitle>Messages</CardTitle>
-                <CardDescription>View and respond to user messages</CardDescription>
-              </CardHeader>
-              <CardContent>
-                <p className="text-muted-foreground text-center py-8">
-                  Message management interface coming soon
-                </p>
-              </CardContent>
-            </Card>
+            <ContactSubmissionsManager />
           </TabsContent>
         </Tabs>
       </div>
