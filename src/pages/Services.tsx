@@ -1,7 +1,7 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
-import { Globe, Palette, Bot, Share2, FileText, Video, Code, Megaphone, ArrowRight } from "lucide-react";
+import { Globe, Palette, Bot, Share2, FileText, Video, Code, Megaphone, ArrowRight, DollarSign } from "lucide-react";
 
 const services = [
   {
@@ -94,6 +94,14 @@ export default function Services() {
                     ))}
                   </ul>
                 </div>
+                {service.title === "Website Creation" && (
+                  <Link to="/pricing" className="mt-4 block">
+                    <Button variant="outline" className="w-full">
+                      <DollarSign className="w-4 h-4 mr-2" />
+                      View Pricing Plans
+                    </Button>
+                  </Link>
+                )}
               </CardContent>
             </Card>
           ))}
