@@ -13,6 +13,7 @@ import { StudentAssignmentsManager } from "@/components/admin/StudentAssignments
 import { WorkApplicationsManager } from "@/components/admin/WorkApplicationsManager";
 import { ProjectsManager } from "@/components/admin/ProjectsManager";
 import { ContactSubmissionsManager } from "@/components/admin/ContactSubmissionsManager";
+import { ProductsManager } from "@/components/admin/ProductsManager";
 
 export default function AdminDashboard() {
   const { user, isAdmin, loading, signOut } = useAuth();
@@ -93,9 +94,10 @@ export default function AdminDashboard() {
         </div>
 
         <Tabs defaultValue="contact" className="space-y-4">
-          <TabsList className="grid w-full grid-cols-8">
+          <TabsList className="grid w-full grid-cols-9">
             <TabsTrigger value="contact">Contact Info</TabsTrigger>
             <TabsTrigger value="services">Services</TabsTrigger>
+            <TabsTrigger value="products">Products</TabsTrigger>
             <TabsTrigger value="projects">Projects</TabsTrigger>
             <TabsTrigger value="workers">Workers</TabsTrigger>
             <TabsTrigger value="chat">Chat Fellow</TabsTrigger>
@@ -110,6 +112,10 @@ export default function AdminDashboard() {
 
           <TabsContent value="services" className="space-y-4">
             <ServicesManager />
+          </TabsContent>
+
+          <TabsContent value="products" className="space-y-4">
+            <ProductsManager />
           </TabsContent>
 
           <TabsContent value="projects" className="space-y-4">
