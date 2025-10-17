@@ -10,6 +10,13 @@ import { Badge } from "@/components/ui/badge";
 import { Plus, Pencil, Trash2, Save, X } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
+interface PricingTier {
+  name: string;
+  price: string;
+  period: string;
+  features: string[];
+}
+
 interface Product {
   id: string;
   title: string;
@@ -19,6 +26,7 @@ interface Product {
   features: string[];
   visible: boolean;
   display_order: number;
+  pricing?: PricingTier[];
 }
 
 export const ProductsManager = () => {
@@ -31,6 +39,7 @@ export const ProductsManager = () => {
     icon: "",
     image_url: "",
     features: "",
+    pricing: "",
     visible: true,
     display_order: 0,
   });
@@ -53,17 +62,32 @@ export const ProductsManager = () => {
         variant: "destructive",
       });
     } else {
-      setProducts(data || []);
+      setProducts((data as unknown as Product[]) || []);
     }
   };
 
   const handleSubmit = async () => {
+    let pricingData = null;
+    if (formData.pricing.trim()) {
+      try {
+        pricingData = JSON.parse(formData.pricing);
+      } catch (e) {
+        toast({
+          title: "Error",
+          description: "Invalid pricing JSON format",
+          variant: "destructive",
+        });
+        return;
+      }
+    }
+
     const productData = {
       title: formData.title,
       description: formData.description,
       icon: formData.icon || null,
       image_url: formData.image_url || null,
       features: formData.features.split("\n").filter((f) => f.trim()),
+      pricing: pricingData,
       visible: formData.visible,
       display_order: formData.display_order,
     };
@@ -110,6 +134,7 @@ export const ProductsManager = () => {
       icon: product.icon || "",
       image_url: product.image_url || "",
       features: product.features.join("\n"),
+      pricing: product.pricing ? JSON.stringify(product.pricing, null, 2) : "",
       visible: product.visible,
       display_order: product.display_order,
     });
@@ -140,6 +165,7 @@ export const ProductsManager = () => {
       icon: "",
       image_url: "",
       features: "",
+      pricing: "",
       visible: true,
       display_order: 0,
     });
@@ -216,6 +242,20 @@ export const ProductsManager = () => {
             </div>
 
             <div>
+              <Label htmlFor="pricing">Pricing (JSON format)</Label>
+              <Textarea
+                id="pricing"
+                value={formData.pricing}
+                onChange={(e) => setFormData({ ...formData, pricing: e.target.value })}
+                placeholder='[{"name": "Basic", "price": "9.99", "period": "month", "features": ["Feature 1", "Feature 2"]}]'
+                rows={8}
+              />
+              <p className="text-xs text-muted-foreground mt-1">
+                Enter pricing tiers in JSON format with name, price, period, and features
+              </p>
+            </div>
+
+            <div>
               <Label htmlFor="display_order">Display Order</Label>
               <Input
                 id="display_order"
@@ -267,6 +307,18 @@ export const ProductsManager = () => {
                           <li key={idx}>{feature}</li>
                         ))}
                       </ul>
+                    </div>
+                  )}
+                  {product.pricing && product.pricing.length > 0 && (
+                    <div className="mb-2">
+                      <p className="text-sm font-medium mb-1">Pricing Tiers:</p>
+                      <div className="text-sm text-muted-foreground space-y-1">
+                        {product.pricing.map((tier, idx) => (
+                          <div key={idx}>
+                            {tier.name}: ${tier.price}/{tier.period}
+                          </div>
+                        ))}
+                      </div>
                     </div>
                   )}
                   <p className="text-sm text-muted-foreground">

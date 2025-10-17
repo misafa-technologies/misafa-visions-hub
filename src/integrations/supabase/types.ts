@@ -196,6 +196,7 @@ export type Database = {
           icon: string | null
           id: string
           image_url: string | null
+          pricing: Json | null
           title: string
           updated_at: string
           visible: boolean | null
@@ -208,6 +209,7 @@ export type Database = {
           icon?: string | null
           id?: string
           image_url?: string | null
+          pricing?: Json | null
           title: string
           updated_at?: string
           visible?: boolean | null
@@ -220,6 +222,7 @@ export type Database = {
           icon?: string | null
           id?: string
           image_url?: string | null
+          pricing?: Json | null
           title?: string
           updated_at?: string
           visible?: boolean | null
