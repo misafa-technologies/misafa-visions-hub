@@ -308,6 +308,8 @@ export type Database = {
           features: string[] | null
           icon: string | null
           id: string
+          link_url: string | null
+          pricing: Json | null
           title: string
           updated_at: string
           visible: boolean | null
@@ -319,6 +321,8 @@ export type Database = {
           features?: string[] | null
           icon?: string | null
           id?: string
+          link_url?: string | null
+          pricing?: Json | null
           title: string
           updated_at?: string
           visible?: boolean | null
@@ -330,6 +334,8 @@ export type Database = {
           features?: string[] | null
           icon?: string | null
           id?: string
+          link_url?: string | null
+          pricing?: Json | null
           title?: string
           updated_at?: string
           visible?: boolean | null

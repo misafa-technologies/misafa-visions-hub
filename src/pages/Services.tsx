@@ -1,9 +1,32 @@
+import { useEffect, useState } from "react";
+import { supabase } from "@/integrations/supabase/client";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
-import { Globe, Palette, Bot, Share2, FileText, Video, Code, Megaphone, ArrowRight, DollarSign } from "lucide-react";
+import { ArrowRight, DollarSign, ExternalLink, Check, Globe, Palette, Bot, Share2, FileText, Video, Code, Megaphone } from "lucide-react";
+import * as Icons from "lucide-react";
+import { useContactInfo } from "@/hooks/useContactInfo";
 
-const services = [
+interface PricingTier {
+  name: string;
+  price: string;
+  period: string;
+  features: string[];
+}
+
+interface Service {
+  id: string;
+  title: string;
+  description: string;
+  icon?: string;
+  features: string[] | null;
+  visible: boolean;
+  display_order: number;
+  pricing?: PricingTier[];
+  link_url?: string;
+}
+
+const staticServices = [
   {
     icon: Globe,
     title: "Website Creation",
@@ -55,6 +78,43 @@ const services = [
 ];
 
 export default function Services() {
+  const [dynamicServices, setDynamicServices] = useState<Service[]>([]);
+  const [loading, setLoading] = useState(true);
+  const { contactInfo } = useContactInfo();
+
+  useEffect(() => {
+    fetchServices();
+  }, []);
+
+  const fetchServices = async () => {
+    const { data, error } = await supabase
+      .from("services_offered")
+      .select("*")
+      .eq("visible", true)
+      .order("display_order", { ascending: true });
+
+    if (!error && data) {
+      setDynamicServices(data as unknown as Service[]);
+    }
+    setLoading(false);
+  };
+
+  const getIcon = (iconName?: string) => {
+    if (!iconName) return null;
+    const Icon = (Icons as any)[iconName];
+    return Icon ? <Icon className="w-8 h-8 text-primary" /> : null;
+  };
+
+  const whatsappNumber = contactInfo.find((info) => info.key === "whatsapp")?.value || "";
+
+  const handleInquiry = (serviceTitle: string) => {
+    const message = encodeURIComponent(`Hi, I'm interested in learning more about ${serviceTitle}. Can you provide more information?`);
+    const url = `https://wa.me/${whatsappNumber.replace(/[^0-9]/g, "")}?text=${message}`;
+    window.open(url, "_blank");
+  };
+
+  const allServices = [...staticServices, ...dynamicServices];
+
   return (
     <div className="min-h-screen pt-24 pb-20 px-4">
       <div className="container mx-auto">
@@ -68,43 +128,93 @@ export default function Services() {
 
         {/* Services Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-16">
-          {services.map((service, index) => (
-            <Card 
-              key={index}
-              className="group hover:shadow-xl hover:shadow-primary/20 transition-all duration-300 bg-card"
-            >
-              <CardContent className="p-8">
-                <div className="flex items-start space-x-4 mb-6">
-                  <div className="w-16 h-16 bg-primary/10 rounded-xl flex items-center justify-center group-hover:bg-primary/20 transition-colors flex-shrink-0">
-                    <service.icon className="w-8 h-8 text-primary" />
+          {allServices.map((service, index) => {
+            const isDynamic = 'id' in service;
+            return (
+              <Card 
+                key={isDynamic ? service.id : index}
+                className="group hover:shadow-xl hover:shadow-primary/20 transition-all duration-300 bg-card"
+              >
+                <CardContent className="p-8">
+                  <div className="flex items-start space-x-4 mb-6">
+                    <div className="w-16 h-16 bg-primary/10 rounded-xl flex items-center justify-center group-hover:bg-primary/20 transition-colors flex-shrink-0">
+                      {isDynamic ? getIcon(service.icon) : <service.icon className="w-8 h-8 text-primary" />}
+                    </div>
+                    <div>
+                      <h3 className="text-2xl font-bold mb-2">{service.title}</h3>
+                      <p className="text-muted-foreground">{service.description}</p>
+                    </div>
                   </div>
-                  <div>
-                    <h3 className="text-2xl font-bold mb-2">{service.title}</h3>
-                    <p className="text-muted-foreground">{service.description}</p>
+                  <div className="space-y-2">
+                    <p className="text-sm font-semibold text-primary">Key Features:</p>
+                    <ul className="grid grid-cols-2 gap-2">
+                      {service.features?.map((feature, i) => (
+                        <li key={i} className="text-sm text-muted-foreground flex items-center">
+                          <ArrowRight className="w-3 h-3 mr-2 text-primary" />
+                          {feature}
+                        </li>
+                      ))}
+                    </ul>
                   </div>
-                </div>
-                <div className="space-y-2">
-                  <p className="text-sm font-semibold text-primary">Key Features:</p>
-                  <ul className="grid grid-cols-2 gap-2">
-                    {service.features.map((feature, i) => (
-                      <li key={i} className="text-sm text-muted-foreground flex items-center">
-                        <ArrowRight className="w-3 h-3 mr-2 text-primary" />
-                        {feature}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-                {service.title === "Website Creation" && (
-                  <Link to="/pricing" className="mt-4 block">
-                    <Button variant="outline" className="w-full">
-                      <DollarSign className="w-4 h-4 mr-2" />
-                      View Pricing Plans
+
+                  {/* Pricing Section for Dynamic Services */}
+                  {isDynamic && service.pricing && service.pricing.length > 0 && (
+                    <div className="mt-6">
+                      <p className="text-sm font-semibold text-primary mb-3">Pricing Plans:</p>
+                      <div className="space-y-3">
+                        {service.pricing.map((tier, idx) => (
+                          <div key={idx} className="border rounded-lg p-3 hover:border-primary transition-colors">
+                            <div className="flex justify-between items-start mb-2">
+                              <div className="font-semibold">{tier.name}</div>
+                              <div className="text-xl font-bold text-primary">
+                                ${tier.price}
+                                <span className="text-xs text-muted-foreground ml-1">/{tier.period}</span>
+                              </div>
+                            </div>
+                            {tier.features && tier.features.length > 0 && (
+                              <ul className="space-y-1 mt-2">
+                                {tier.features.map((feature, fIdx) => (
+                                  <li key={fIdx} className="flex items-start text-xs">
+                                    <Check className="w-3 h-3 text-primary mr-1 flex-shrink-0 mt-0.5" />
+                                    <span>{feature}</span>
+                                  </li>
+                                ))}
+                              </ul>
+                            )}
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Action Buttons */}
+                  {service.title === "Website Creation" && (
+                    <Link to="/pricing" className="mt-4 block">
+                      <Button variant="outline" className="w-full">
+                        <DollarSign className="w-4 h-4 mr-2" />
+                        View Pricing Plans
+                      </Button>
+                    </Link>
+                  )}
+                  
+                  {isDynamic && service.link_url && (
+                    <a href={service.link_url} target="_blank" rel="noopener noreferrer" className="mt-4 block">
+                      <Button className="w-full">
+                        <ExternalLink className="w-4 h-4 mr-2" />
+                        Get Started
+                      </Button>
+                    </a>
+                  )}
+
+                  {isDynamic && !service.link_url && (
+                    <Button onClick={() => handleInquiry(service.title)} className="w-full mt-4" disabled={!whatsappNumber}>
+                      Get Started
                     </Button>
-                  </Link>
-                )}
-              </CardContent>
-            </Card>
-          ))}
+                  )}
+                </CardContent>
+              </Card>
+            );
+          })}
         </div>
 
         {/* CTA Section */}

@@ -17,6 +17,13 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 
+interface PricingTier {
+  name: string;
+  price: string;
+  period: string;
+  features: string[];
+}
+
 interface Service {
   id: string;
   title: string;
@@ -25,6 +32,8 @@ interface Service {
   features: string[] | null;
   visible: boolean;
   display_order: number;
+  pricing?: PricingTier[];
+  link_url?: string;
 }
 
 export function ServicesManager() {
@@ -46,7 +55,7 @@ export function ServicesManager() {
     if (error) {
       toast({ title: "Error", description: "Failed to load services", variant: "destructive" });
     } else {
-      setServices(data || []);
+      setServices((data as unknown as Service[]) || []);
     }
   };
 
@@ -55,12 +64,29 @@ export function ServicesManager() {
     const formData = new FormData(e.currentTarget);
     const featuresText = formData.get("features") as string;
     const features = featuresText ? featuresText.split("\n").filter(f => f.trim()) : [];
+    
+    const pricingText = formData.get("pricing") as string;
+    let pricingData = null;
+    if (pricingText && pricingText.trim()) {
+      try {
+        pricingData = JSON.parse(pricingText);
+      } catch (e) {
+        toast({
+          title: "Error",
+          description: "Invalid pricing JSON format",
+          variant: "destructive",
+        });
+        return;
+      }
+    }
 
     const serviceData = {
       title: formData.get("title") as string,
       description: formData.get("description") as string,
       icon: formData.get("icon") as string,
       features,
+      pricing: pricingData,
+      link_url: (formData.get("link_url") as string) || null,
       visible: formData.get("visible") === "on",
       display_order: parseInt(formData.get("display_order") as string) || 0,
     };
@@ -163,6 +189,32 @@ export function ServicesManager() {
                     defaultValue={editingService?.features?.join("\n") || ""} 
                     placeholder="Feature 1&#10;Feature 2&#10;Feature 3"
                   />
+                </div>
+                <div>
+                  <Label htmlFor="pricing">Pricing (JSON format - optional)</Label>
+                  <Textarea
+                    id="pricing"
+                    name="pricing"
+                    defaultValue={editingService?.pricing ? JSON.stringify(editingService.pricing, null, 2) : ""}
+                    placeholder='[{"name": "Basic", "price": "9.99", "period": "month", "features": ["Feature 1", "Feature 2"]}]'
+                    rows={6}
+                  />
+                  <p className="text-xs text-muted-foreground mt-1">
+                    Optional: Add pricing tiers in JSON format with name, price, period, and features
+                  </p>
+                </div>
+                <div>
+                  <Label htmlFor="link_url">External Link URL (optional)</Label>
+                  <Input 
+                    id="link_url" 
+                    name="link_url" 
+                    type="url"
+                    defaultValue={editingService?.link_url || ""} 
+                    placeholder="https://yourwebsite.com/service" 
+                  />
+                  <p className="text-xs text-muted-foreground mt-1">
+                    Link to external page (e.g., your website for this service)
+                  </p>
                 </div>
                 <div className="flex items-center gap-2">
                   <Switch id="visible" name="visible" defaultChecked={editingService?.visible ?? true} />

@@ -59,8 +59,10 @@ export default function Products() {
   const whatsappNumber = contactInfo.find((info) => info.key === "whatsapp")?.value || "";
 
   const handleInquiry = (productTitle: string) => {
+    if (!whatsappNumber) return;
     const message = encodeURIComponent(`Hi, I'm interested in learning more about ${productTitle}. Can you provide more information?`);
-    const url = `https://wa.me/${whatsappNumber.replace(/[^0-9]/g, "")}?text=${message}`;
+    const cleanNumber = whatsappNumber.replace(/[^0-9]/g, "");
+    const url = `https://wa.me/${cleanNumber}?text=${message}`;
     window.open(url, "_blank");
   };
 
