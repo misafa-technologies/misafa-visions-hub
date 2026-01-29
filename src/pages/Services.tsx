@@ -152,7 +152,8 @@ export default function Services() {
             return (
               <Card 
                 key={isDynamic ? service.id : index}
-                className="group hover:shadow-xl hover:shadow-primary/20 transition-all duration-300 bg-card"
+                className="group hover:shadow-xl hover:shadow-primary/20 transition-all duration-300 bg-card animate-fade-in"
+                style={{ animationDelay: `${index * 75}ms` }}
               >
                 <CardContent className="p-8">
                   <div className="flex items-start space-x-4 mb-6">
