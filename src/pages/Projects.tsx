@@ -1,10 +1,11 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
-import { ExternalLink, Filter } from "lucide-react";
+import { ExternalLink } from "lucide-react";
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { Badge } from "@/components/ui/badge";
+import { ProjectCardSkeleton } from "@/components/skeletons/ProjectCardSkeleton";
 
 interface Project {
   id: string;
@@ -47,7 +48,11 @@ export default function Projects() {
         </div>
 
         {loading ? (
-          <p className="text-center text-muted-foreground">Loading projects...</p>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {[1, 2, 3, 4, 5, 6].map((i) => (
+              <ProjectCardSkeleton key={i} />
+            ))}
+          </div>
         ) : projects.length === 0 ? (
           <Card className="bg-muted/30">
             <CardContent className="p-16 text-center">

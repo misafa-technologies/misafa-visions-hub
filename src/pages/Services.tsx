@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import { ArrowRight, DollarSign, ExternalLink, Check, Globe, Palette, Bot, Share2, FileText, Video, Code, Megaphone } from "lucide-react";
 import * as Icons from "lucide-react";
 import { useContactInfo } from "@/hooks/useContactInfo";
+import { ServiceCardSkeleton } from "@/components/skeletons/ServiceCardSkeleton";
 
 interface PricingTier {
   name: string;
@@ -114,6 +115,24 @@ export default function Services() {
   };
 
   const allServices = [...staticServices, ...dynamicServices];
+
+  if (loading) {
+    return (
+      <div className="min-h-screen pt-24 pb-20 px-4">
+        <div className="container mx-auto">
+          <div className="text-center mb-16">
+            <div className="h-14 w-72 bg-muted animate-pulse rounded mx-auto mb-6" />
+            <div className="h-6 w-96 bg-muted animate-pulse rounded mx-auto" />
+          </div>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            {[1, 2, 3, 4, 5, 6].map((i) => (
+              <ServiceCardSkeleton key={i} />
+            ))}
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen pt-24 pb-20 px-4">
