@@ -6,8 +6,7 @@ import { Check, MessageCircle } from "lucide-react";
 import { Link } from "react-router-dom";
 import * as Icons from "lucide-react";
 import { useContactInfo } from "@/hooks/useContactInfo";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Badge } from "@/components/ui/badge";
+import { ProductCardSkeleton } from "@/components/skeletons/ProductCardSkeleton";
 
 interface PricingTier {
   name: string;
@@ -70,7 +69,15 @@ export default function Products() {
     return (
       <div className="min-h-screen pt-24 pb-20 px-4">
         <div className="container mx-auto max-w-6xl">
-          <p className="text-center text-muted-foreground">Loading products...</p>
+          <div className="text-center mb-16">
+            <div className="h-12 w-64 bg-muted animate-pulse rounded mx-auto mb-4" />
+            <div className="h-6 w-96 bg-muted animate-pulse rounded mx-auto" />
+          </div>
+          <div className="grid md:grid-cols-2 gap-8">
+            {[1, 2, 3, 4].map((i) => (
+              <ProductCardSkeleton key={i} />
+            ))}
+          </div>
         </div>
       </div>
     );
