@@ -72,8 +72,12 @@ export default function Projects() {
           </Card>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {projects.map((project) => (
-              <Card key={project.id} className="overflow-hidden group hover:shadow-lg transition-all">
+            {projects.map((project, index) => (
+              <Card 
+                key={project.id} 
+                className="overflow-hidden group hover:shadow-lg transition-all animate-fade-in"
+                style={{ animationDelay: `${index * 50}ms` }}
+              >
                 {project.image_url && (
                   <div className="aspect-video overflow-hidden bg-muted">
                     <img 
