@@ -45,13 +45,13 @@ export default function Login() {
   };
 
   return (
-    <div className="min-h-screen pt-24 pb-20 px-4 flex items-center justify-center">
-      <Card className="w-full max-w-md">
-        <CardHeader className="text-center">
-          <CardTitle className="text-3xl">Welcome Back</CardTitle>
+    <div className="min-h-screen pt-20 sm:pt-24 pb-16 sm:pb-20 px-3 sm:px-4 flex items-center justify-center">
+      <Card className="w-full max-w-md border-primary/10">
+        <CardHeader className="text-center p-4 sm:p-6">
+          <CardTitle className="text-2xl sm:text-3xl bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">Welcome Back</CardTitle>
           <CardDescription>Sign in to your Misafa account</CardDescription>
         </CardHeader>
-        <CardContent>
+        <CardContent className="p-4 sm:p-6 pt-0">
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="space-y-2">
               <Label htmlFor="email">Email</Label>
@@ -77,7 +77,7 @@ export default function Login() {
               />
             </div>
 
-            <Button type="submit" className="w-full" size="lg" disabled={loading}>
+            <Button type="submit" className="w-full bg-gradient-to-r from-primary to-accent hover:from-primary/90 hover:to-accent/90" size="lg" disabled={loading}>
               {loading ? "Signing in..." : "Sign In"}
             </Button>
 
