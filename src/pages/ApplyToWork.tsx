@@ -65,28 +65,28 @@ export default function ApplyToWork() {
   };
 
   return (
-    <div className="min-h-screen pt-24 pb-20 px-4">
+    <div className="min-h-screen pt-20 sm:pt-24 pb-16 sm:pb-20 px-3 sm:px-4">
       <div className="container mx-auto max-w-4xl">
-        <div className="text-center mb-12 animate-fade-in-up">
-          <div className="w-20 h-20 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-6">
-            <Briefcase className="w-10 h-10 text-primary" />
+        <div className="text-center mb-8 sm:mb-12 animate-fade-in-up">
+          <div className="w-16 h-16 sm:w-20 sm:h-20 bg-gradient-to-br from-primary/20 to-accent/20 rounded-full flex items-center justify-center mx-auto mb-4 sm:mb-6">
+            <Briefcase className="w-8 h-8 sm:w-10 sm:h-10 text-primary" />
           </div>
-          <h1 className="text-5xl md:text-6xl font-bold mb-6">Join Our Team</h1>
-          <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
+          <h1 className="text-3xl sm:text-5xl md:text-6xl font-bold mb-4 sm:mb-6 bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent">Join Our Team</h1>
+          <p className="text-base sm:text-xl text-muted-foreground max-w-3xl mx-auto px-2">
             Are you a talented professional looking to work on exciting projects? Apply to become a contributor at Misafa Technologies.
           </p>
         </div>
 
-        <Card>
-          <CardHeader>
-            <CardTitle>Work Application</CardTitle>
-            <CardDescription>
+        <Card className="border-primary/10">
+          <CardHeader className="p-4 sm:p-6">
+            <CardTitle className="text-xl sm:text-2xl">Work Application</CardTitle>
+            <CardDescription className="text-sm sm:text-base">
               Fill out the form below to apply. We're looking for skilled professionals in web development, design, content creation, and more.
             </CardDescription>
           </CardHeader>
-          <CardContent>
-            <form onSubmit={handleSubmit} className="space-y-6">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <CardContent className="p-4 sm:p-6 pt-0">
+            <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
                 <div className="space-y-2">
                   <Label htmlFor="full_name">Full Name *</Label>
                   <Input
@@ -138,7 +138,7 @@ export default function ApplyToWork() {
                 <Textarea
                   id="experience"
                   placeholder="Tell us about your professional experience..."
-                  rows={6}
+                  rows={5}
                   value={formData.experience}
                   onChange={(e) => setFormData({ ...formData, experience: e.target.value })}
                 />
@@ -155,7 +155,7 @@ export default function ApplyToWork() {
                 />
               </div>
 
-              <Button type="submit" size="lg" className="w-full" disabled={submitting}>
+              <Button type="submit" size="lg" className="w-full bg-gradient-to-r from-primary to-accent hover:from-primary/90 hover:to-accent/90" disabled={submitting}>
                 <Send className="w-5 h-5 mr-2" />
                 {submitting ? "Submitting..." : "Submit Application"}
               </Button>

@@ -61,56 +61,56 @@ export default function Contact() {
   const whatsappLink = `https://wa.me/${whatsappNumber.replace(/[^0-9]/g, "")}`;
 
   return (
-    <div className="min-h-screen pt-24 pb-20 px-4">
+    <div className="min-h-screen pt-20 sm:pt-24 pb-16 sm:pb-20 px-3 sm:px-4">
       <div className="container mx-auto max-w-6xl">
         {/* Header */}
-        <div className="text-center mb-16 animate-fade-in-up">
-          <h1 className="text-5xl md:text-6xl font-bold mb-6">Get in Touch</h1>
-          <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
+        <div className="text-center mb-10 sm:mb-16 animate-fade-in-up">
+          <h1 className="text-3xl sm:text-5xl md:text-6xl font-bold mb-4 sm:mb-6 bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent">Get in Touch</h1>
+          <p className="text-base sm:text-xl text-muted-foreground max-w-3xl mx-auto px-2">
             Have a project in mind? We'd love to hear from you. Send us a message and we'll respond as soon as possible.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-8">
           {/* Contact Info */}
-          <div className="space-y-6">
+          <div className="space-y-4 sm:space-y-6">
             <Card className="bg-gradient-to-br from-primary/10 to-accent/10 border-primary/20">
-              <CardContent className="p-6">
-                <div className="flex items-start space-x-4">
-                  <div className="w-12 h-12 bg-primary/20 rounded-lg flex items-center justify-center flex-shrink-0">
-                    <Mail className="w-6 h-6 text-primary" />
+              <CardContent className="p-4 sm:p-6">
+                <div className="flex items-start space-x-3 sm:space-x-4">
+                  <div className="w-10 h-10 sm:w-12 sm:h-12 bg-primary/20 rounded-lg flex items-center justify-center flex-shrink-0">
+                    <Mail className="w-5 h-5 sm:w-6 sm:h-6 text-primary" />
                   </div>
                   <div>
                     <h3 className="font-semibold mb-1">Email</h3>
-                    <p className="text-sm text-muted-foreground">{getByKey("email") || "info@misafa.tech"}</p>
+                    <p className="text-xs sm:text-sm text-muted-foreground">{getByKey("email") || "info@misafa.tech"}</p>
                   </div>
                 </div>
               </CardContent>
             </Card>
 
-            <Card className="bg-gradient-to-br from-accent/10 to-destructive/10 border-accent/20">
-              <CardContent className="p-6">
-                <div className="flex items-start space-x-4">
-                  <div className="w-12 h-12 bg-accent/20 rounded-lg flex items-center justify-center flex-shrink-0">
-                    <Phone className="w-6 h-6 text-accent" />
+            <Card className="bg-gradient-to-br from-accent/10 to-primary/10 border-accent/20">
+              <CardContent className="p-4 sm:p-6">
+                <div className="flex items-start space-x-3 sm:space-x-4">
+                  <div className="w-10 h-10 sm:w-12 sm:h-12 bg-accent/20 rounded-lg flex items-center justify-center flex-shrink-0">
+                    <Phone className="w-5 h-5 sm:w-6 sm:h-6 text-accent" />
                   </div>
                   <div>
                     <h3 className="font-semibold mb-1">Phone</h3>
-                    <p className="text-sm text-muted-foreground">{getByKey("phone") || "+1 (555) 123-4567"}</p>
+                    <p className="text-xs sm:text-sm text-muted-foreground">{getByKey("phone") || "+1 (555) 123-4567"}</p>
                   </div>
                 </div>
               </CardContent>
             </Card>
 
             <Card className="bg-gradient-to-br from-primary/10 to-primary/5 border-primary/20">
-              <CardContent className="p-6">
-                <a href={whatsappLink} target="_blank" rel="noopener noreferrer" className="flex items-start space-x-4 hover:opacity-80 transition-opacity">
-                  <div className="w-12 h-12 bg-primary/20 rounded-lg flex items-center justify-center flex-shrink-0">
-                    <MessageCircle className="w-6 h-6 text-primary" />
+              <CardContent className="p-4 sm:p-6">
+                <a href={whatsappLink} target="_blank" rel="noopener noreferrer" className="flex items-start space-x-3 sm:space-x-4 hover:opacity-80 transition-opacity">
+                  <div className="w-10 h-10 sm:w-12 sm:h-12 bg-primary/20 rounded-lg flex items-center justify-center flex-shrink-0">
+                    <MessageCircle className="w-5 h-5 sm:w-6 sm:h-6 text-primary" />
                   </div>
                   <div>
                     <h3 className="font-semibold mb-1">WhatsApp</h3>
-                    <p className="text-sm text-muted-foreground">{whatsappNumber}</p>
+                    <p className="text-xs sm:text-sm text-muted-foreground">{whatsappNumber}</p>
                   </div>
                 </a>
               </CardContent>
@@ -119,10 +119,10 @@ export default function Contact() {
 
           {/* Contact Form */}
           <div className="lg:col-span-2">
-            <Card>
-              <CardContent className="p-8">
-                <form onSubmit={handleSubmit} className="space-y-6">
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <Card className="border-primary/10">
+              <CardContent className="p-4 sm:p-8">
+                <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-6">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
                     <div className="space-y-2">
                       <Label htmlFor="name">Name</Label>
                       <Input
@@ -181,14 +181,14 @@ export default function Contact() {
                     <Textarea
                       id="message"
                       placeholder="Tell us about your project..."
-                      rows={8}
+                      rows={6}
                       value={formData.message}
                       onChange={(e) => setFormData({ ...formData, message: e.target.value })}
                       required
                     />
                   </div>
 
-                  <Button type="submit" size="lg" className="w-full" disabled={isSubmitting}>
+                  <Button type="submit" size="lg" className="w-full bg-gradient-to-r from-primary to-accent hover:from-primary/90 hover:to-accent/90" disabled={isSubmitting}>
                     <Send className="w-5 h-5 mr-2" />
                     {isSubmitting ? "Sending..." : "Send Message"}
                   </Button>
@@ -198,7 +198,6 @@ export default function Contact() {
           </div>
         </div>
       </div>
-
     </div>
   );
 }
