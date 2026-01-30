@@ -6,7 +6,7 @@ import { Check, MessageCircle } from "lucide-react";
 import { Link } from "react-router-dom";
 import * as Icons from "lucide-react";
 import { useContactInfo } from "@/hooks/useContactInfo";
-import { ProductCardSkeleton } from "@/components/skeletons/ProductCardSkeleton";
+import { PageLoader } from "@/components/PageLoader";
 
 interface PricingTier {
   name: string;
@@ -68,41 +68,31 @@ export default function Products() {
   if (loading) {
     return (
       <div className="min-h-screen pt-24 pb-20 px-4">
-        <div className="container mx-auto max-w-6xl">
-          <div className="text-center mb-16">
-            <div className="h-12 w-64 bg-muted animate-pulse rounded mx-auto mb-4" />
-            <div className="h-6 w-96 bg-muted animate-pulse rounded mx-auto" />
-          </div>
-          <div className="grid md:grid-cols-2 gap-8">
-            {[1, 2, 3, 4].map((i) => (
-              <ProductCardSkeleton key={i} />
-            ))}
-          </div>
-        </div>
+        <PageLoader />
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen pt-24 pb-20 px-4">
+    <div className="min-h-screen pt-20 sm:pt-24 pb-16 sm:pb-20 px-3 sm:px-4">
       <div className="container mx-auto max-w-6xl">
         {/* Header */}
-        <div className="text-center mb-16 animate-fade-in">
-          <h1 className="text-4xl md:text-5xl font-bold mb-4">Our Products</h1>
-          <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
+        <div className="text-center mb-10 sm:mb-16 animate-fade-in">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-3 sm:mb-4 bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent">Our Products</h1>
+          <p className="text-base sm:text-xl text-muted-foreground max-w-3xl mx-auto px-2">
             Explore our comprehensive suite of software solutions designed to streamline your business operations and drive growth.
           </p>
         </div>
 
         {/* Products Grid */}
-        <div className="grid md:grid-cols-2 gap-8 mb-12">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-8 mb-8 sm:mb-12">
           {products.map((product, index) => (
             <Card
               key={product.id}
-              className="hover:shadow-lg transition-all duration-300 animate-fade-in"
+              className="hover:shadow-lg hover:shadow-primary/20 transition-all duration-300 animate-fade-in border-primary/10"
               style={{ animationDelay: `${index * 100}ms` }}
             >
-              <CardHeader>
+              <CardHeader className="p-4 sm:p-6">
                 <div className="mb-4">{getIcon(product.icon)}</div>
                 <CardTitle className="text-2xl">{product.title}</CardTitle>
                 <CardDescription className="text-base">{product.description}</CardDescription>

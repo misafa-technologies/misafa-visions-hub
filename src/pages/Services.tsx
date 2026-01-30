@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 import { ArrowRight, DollarSign, ExternalLink, Check, Globe, Palette, Bot, Share2, FileText, Video, Code, Megaphone } from "lucide-react";
 import * as Icons from "lucide-react";
 import { useContactInfo } from "@/hooks/useContactInfo";
-import { ServiceCardSkeleton } from "@/components/skeletons/ServiceCardSkeleton";
+import { PageLoader } from "@/components/PageLoader";
 
 interface PricingTier {
   name: string;
@@ -119,55 +119,45 @@ export default function Services() {
   if (loading) {
     return (
       <div className="min-h-screen pt-24 pb-20 px-4">
-        <div className="container mx-auto">
-          <div className="text-center mb-16">
-            <div className="h-14 w-72 bg-muted animate-pulse rounded mx-auto mb-6" />
-            <div className="h-6 w-96 bg-muted animate-pulse rounded mx-auto" />
-          </div>
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-            {[1, 2, 3, 4, 5, 6].map((i) => (
-              <ServiceCardSkeleton key={i} />
-            ))}
-          </div>
-        </div>
+        <PageLoader />
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen pt-24 pb-20 px-4">
+    <div className="min-h-screen pt-20 sm:pt-24 pb-16 sm:pb-20 px-3 sm:px-4">
       <div className="container mx-auto">
         {/* Header */}
-        <div className="text-center mb-16 animate-fade-in-up">
-          <h1 className="text-5xl md:text-6xl font-bold mb-6">Our Services</h1>
-          <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
+        <div className="text-center mb-10 sm:mb-16 animate-fade-in-up">
+          <h1 className="text-3xl sm:text-5xl md:text-6xl font-bold mb-4 sm:mb-6 bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent">Our Services</h1>
+          <p className="text-base sm:text-xl text-muted-foreground max-w-3xl mx-auto px-2">
             Comprehensive digital solutions designed to elevate your brand and accelerate your growth
           </p>
         </div>
 
         {/* Services Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-16">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-8 mb-10 sm:mb-16">
           {allServices.map((service, index) => {
             const isDynamic = 'id' in service;
             return (
               <Card 
                 key={isDynamic ? service.id : index}
-                className="group hover:shadow-xl hover:shadow-primary/20 transition-all duration-300 bg-card animate-fade-in"
+                className="group hover:shadow-xl hover:shadow-primary/20 transition-all duration-300 bg-card animate-fade-in border-primary/10"
                 style={{ animationDelay: `${index * 75}ms` }}
               >
-                <CardContent className="p-8">
-                  <div className="flex items-start space-x-4 mb-6">
-                    <div className="w-16 h-16 bg-primary/10 rounded-xl flex items-center justify-center group-hover:bg-primary/20 transition-colors flex-shrink-0">
-                      {isDynamic ? getIcon(service.icon) : <service.icon className="w-8 h-8 text-primary" />}
+                <CardContent className="p-4 sm:p-8">
+                  <div className="flex flex-col sm:flex-row items-start gap-3 sm:gap-4 mb-4 sm:mb-6">
+                    <div className="w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-br from-primary/20 to-accent/20 rounded-xl flex items-center justify-center group-hover:from-primary/30 group-hover:to-accent/30 transition-colors flex-shrink-0">
+                      {isDynamic ? getIcon(service.icon) : <service.icon className="w-6 h-6 sm:w-8 sm:h-8 text-primary" />}
                     </div>
                     <div>
-                      <h3 className="text-2xl font-bold mb-2">{service.title}</h3>
-                      <p className="text-muted-foreground">{service.description}</p>
+                      <h3 className="text-xl sm:text-2xl font-bold mb-2">{service.title}</h3>
+                      <p className="text-sm sm:text-base text-muted-foreground">{service.description}</p>
                     </div>
                   </div>
                   <div className="space-y-2">
                     <p className="text-sm font-semibold text-primary">Key Features:</p>
-                    <ul className="grid grid-cols-2 gap-2">
+                    <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                       {service.features?.map((feature, i) => (
                         <li key={i} className="text-sm text-muted-foreground flex items-center">
                           <ArrowRight className="w-3 h-3 mr-2 text-primary" />
