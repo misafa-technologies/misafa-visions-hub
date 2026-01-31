@@ -1,7 +1,8 @@
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
-import { Check, ArrowRight } from "lucide-react";
+import { Check, ArrowRight, MessageCircle } from "lucide-react";
+import { useContactInfo } from "@/hooks/useContactInfo";
 
 const pricingPlans = [
   {
@@ -58,6 +59,17 @@ const pricingPlans = [
 ];
 
 export default function Pricing() {
+  const { contactInfo } = useContactInfo();
+  const whatsappNumber = contactInfo.find((info) => info.key === "whatsapp")?.value || "";
+
+  const handleInquiry = (planName: string) => {
+    if (!whatsappNumber) return;
+    const message = encodeURIComponent(`Hi, I'm interested in the ${planName} web creation plan. Can you provide more information?`);
+    const cleanNumber = whatsappNumber.replace(/[^0-9]/g, "");
+    const url = `https://wa.me/${cleanNumber}?text=${message}`;
+    window.open(url, "_blank");
+  };
+
   return (
     <div className="min-h-screen pt-20 sm:pt-24 pb-16 sm:pb-20 px-3 sm:px-4">
       <div className="container mx-auto max-w-7xl">
@@ -84,12 +96,8 @@ export default function Pricing() {
                   Most Popular
                 </div>
               )}
-              <CardHeader className="text-center pb-6 sm:pb-8 pt-6 sm:pt-8">
-                <h3 className="text-xl sm:text-2xl font-bold mb-2">{plan.name}</h3>
-                <div className="flex items-baseline justify-center gap-1">
-                  <span className="text-4xl sm:text-5xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">{plan.price.replace('+', '')}</span>
-                  {plan.price.includes('+') && <span className="text-xl sm:text-2xl text-muted-foreground">+</span>}
-                </div>
+              <CardHeader className="text-center pb-4 sm:pb-6 pt-6 sm:pt-8">
+                <h3 className="text-xl sm:text-2xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">{plan.name}</h3>
               </CardHeader>
               <CardContent className="space-y-4 p-4 sm:p-6 pt-0">
                 <ul className="space-y-2 sm:space-y-3">
@@ -100,14 +108,15 @@ export default function Pricing() {
                     </li>
                   ))}
                 </ul>
-                <Link to="/contact" className="block pt-3 sm:pt-4">
-                  <Button 
-                    className={`w-full ${plan.popular ? 'bg-gradient-to-r from-primary to-accent hover:from-primary/90 hover:to-accent/90' : ''}`}
-                    variant={plan.popular ? "default" : "outline"}
-                  >
-                    Get Started
-                  </Button>
-                </Link>
+                <Button 
+                  onClick={() => handleInquiry(plan.name)}
+                  className={`w-full mt-3 sm:mt-4 ${plan.popular ? 'bg-gradient-to-r from-primary to-accent hover:from-primary/90 hover:to-accent/90' : ''}`}
+                  variant={plan.popular ? "default" : "outline"}
+                  disabled={!whatsappNumber}
+                >
+                  <MessageCircle className="w-4 h-4 mr-2" />
+                  Inquire Now
+                </Button>
               </CardContent>
             </Card>
           ))}
