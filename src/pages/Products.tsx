@@ -109,45 +109,13 @@ export default function Products() {
                   </ul>
                 )}
 
-                {/* Pricing Plans */}
-                {product.pricing && product.pricing.length > 0 && (
-                  <div className="mb-6">
-                    <h3 className="font-semibold mb-4">Pricing Plans</h3>
-                    <div className="space-y-3">
-                      {product.pricing.map((tier, idx) => (
-                        <div key={idx} className="border rounded-lg p-4 hover:border-primary transition-colors">
-                          <div className="flex justify-between items-start mb-2">
-                            <div>
-                              <div className="font-semibold">{tier.name}</div>
-                              <div className="text-2xl font-bold text-primary">
-                                ${tier.price}
-                                <span className="text-sm text-muted-foreground ml-1">/{tier.period}</span>
-                              </div>
-                            </div>
-                          </div>
-                          {tier.features && tier.features.length > 0 && (
-                            <ul className="space-y-1 mt-3">
-                              {tier.features.map((feature, fIdx) => (
-                                <li key={fIdx} className="flex items-start text-sm">
-                                  <Check className="w-4 h-4 text-primary mr-2 flex-shrink-0 mt-0.5" />
-                                  <span>{feature}</span>
-                                </li>
-                              ))}
-                            </ul>
-                          )}
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                )}
-
                 <Button
                   onClick={() => handleInquiry(product.title)}
                   className="w-full"
                   disabled={!whatsappNumber}
                 >
                   <MessageCircle className="w-4 h-4 mr-2" />
-                  Get Started
+                  Inquire Now
                 </Button>
               </CardContent>
             </Card>
